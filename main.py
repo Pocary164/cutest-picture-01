@@ -408,8 +408,10 @@ def main():
            + chunk(b"IHDR", struct.pack(">IIBBBBB", OUT, OUT, 8, 2, 0, 0, 0))
            + chunk(b"IDAT", zlib.compress(bytes(raw), 9))
            + chunk(b"IEND", b""))
-    outdir = os.environ.get("MAKEFUN_OUTPUT_DIR", ".")
-    with open(os.path.join(outdir, "entry.png"), "wb") as f:
+    outdir = os.environ.get("MAKEFUN_OUTPUT_DIR") or "."
+    os.makedirs(outdir, exist_ok=True)
+    outpath = os.path.join(outdir, "entry.png")
+    with open(outpath, "wb") as f:
         f.write(png)
 
 
